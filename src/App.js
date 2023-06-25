@@ -12,8 +12,10 @@ function StockSymbolInput() {
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
+
       const fetchSuggestions = async () => {
-      const searchUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=EVAIYPOEEXP1A87A`;
+      const API_KEY = process.env.REACT_APP_API_KEY  
+      const searchUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${API_KEY}`;
       const searchResponse = await fetch(searchUrl);
       const searchJsonData = await searchResponse.json();
       if (searchJsonData.Note){
