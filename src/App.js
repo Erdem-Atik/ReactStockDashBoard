@@ -1,4 +1,4 @@
-"use strict";
+
 import React, { useState, useEffect } from "react"; 
 import Notification from './Notifications.js'
 import './styles.css';

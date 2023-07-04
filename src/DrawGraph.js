@@ -2,10 +2,10 @@ import React, { useEffect,useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';// to create chart library
 import Notification from './Notifications.js'
 import get24AgoGMT from "./timeStamps.js";   // to find correct timestamp
+import BuySellButton from "./BuySellButton.js";
 
 function DrawGraph({stockSymbol,stockName}) {
   console.log(stockSymbol,stockName);
-
 
     const [dataList, setDataList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -15,7 +15,6 @@ function DrawGraph({stockSymbol,stockName}) {
     useEffect(() => {
       async function fetchData() {
         const API_KEY = process.env.REACT_APP_API_KEY
-
         try{
           const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${stockSymbol}&interval=60min&&apikey=${API_KEY}`;
           const response = await fetch(url);
@@ -86,6 +85,10 @@ function DrawGraph({stockSymbol,stockName}) {
     return (     
       <div className="graph">
         {<h1> {stockSymbol} {stockName} {dataList && dataList?.at(-1)?.close} USD </h1>}
+        {<BuySellButton
+        sellStock={()=>alert('please enter stock to sell')}
+        buyStock = {()=>alert('please enter stock to buy')}
+        ></BuySellButton>}
         {isLoading ? (
           <p>Loading...</p>
         ) : (<LineChart width={1200} height={300} data={dataList}>
@@ -94,7 +97,7 @@ function DrawGraph({stockSymbol,stockName}) {
           <YAxis 
            ticks={[0, (parseInt(dataList && dataList[0]?.close))/2,(parseInt(dataList &&  dataList?.at(-1).close))*2]} // it defines graph y axis numbers
            interval={'preserveEnd'}
-            />
+          />
           <Tooltip />
           <Legend name="close value (USD)" />
           <Line type="monotone" dataKey="close" stroke="#8884d8" name="Close Value(USD)" />
