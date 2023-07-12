@@ -85,10 +85,7 @@ function DrawGraph({stockSymbol,stockName}) {
     return (     
       <div className="graph">
         {<h1> {stockSymbol} {stockName} {dataList && dataList?.at(-1)?.close} USD </h1>}
-        {<BuySellButton
-        sellStock={()=>alert('please enter stock to sell')}
-        buyStock = {()=>alert('please enter stock to buy')}
-        ></BuySellButton>}
+        {<BuySellButton></BuySellButton>}
         {isLoading ? (
           <p>Loading...</p>
         ) : (<LineChart width={1200} height={300} data={dataList}>

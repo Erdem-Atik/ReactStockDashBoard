@@ -1,12 +1,19 @@
-import { Children } from "react";
 
 function BuySellButton({sellStock,buyStock}){
+    function sellClick() {
+        alert('SOLD')
+    }
+    function buyClick() {
+        alert('PURCHASED')
+    }
+
+
     return(
         <div>
-            <Button onClick={sellStock}>
+            <Button onClick={sellClick}>
                 Sell
             </Button>
-            <Button onClick={buyStock}>
+            <Button onClick={buyClick}>
                 Buy
             </Button>
         </div>
