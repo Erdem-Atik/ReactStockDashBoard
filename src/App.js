@@ -10,7 +10,7 @@ function StockDashBoard(){
   //Symbol states
   const [symbol, setSymbol] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [selectedStokcName, setselectedStockName] = useState(null);
+  const [selectedStockName, setselectedStockName] = useState(null);
   const [selectedSymbol, setSelectedSymbol] = useState(null);
 
   //DrawGraph States
@@ -28,7 +28,7 @@ function StockDashBoard(){
   };
   
   useEffect(()=>{
-    console.log(symbol);
+    console.log(symbol,selectedStockName);
   })
 
 //suggestion fetch
@@ -59,14 +59,12 @@ function StockDashBoard(){
     setSuggestions(newSuggestions);
   };  
   if (symbol.length >= 2) {
-    console.log('it runs');
+
     fetchSuggestions();
   } else {
     setSuggestions([]);
   }
 }, [symbol]);
-
-console.log(symbol);
 
 // Graph Fetch
 useEffect(() => {
@@ -145,6 +143,7 @@ useEffect(() => {
     {showChart &&       
       <DrawGraph 
       selectedSymbol={selectedSymbol}
+      selectedStockName={selectedStockName}
       dataList={dataList}
       isLoading ={isLoading} 
        />}
@@ -184,8 +183,8 @@ function Suggestions({suggestions,handleSymbolSelect}){
 
 }
 
-function DrawGraph({selectedSymbol, selectedStokcName, dataList, isLoading}) {
-  console.log(selectedSymbol,selectedStokcName);
+function DrawGraph({selectedSymbol, selectedStockName, dataList, isLoading}) {
+  console.log(selectedSymbol,selectedStockName);
 
 
     // if(isApiError){
@@ -203,7 +202,7 @@ function DrawGraph({selectedSymbol, selectedStokcName, dataList, isLoading}) {
 
     return (     
       <div className="graph">
-        {<h1> {selectedSymbol} {selectedStokcName} {dataList && dataList?.at(-1)?.close} USD </h1>}
+        {<h1> {selectedSymbol} {selectedStockName} {dataList && dataList?.at(-1)?.close} USD </h1>}
         {<BuySellButton></BuySellButton>}
         {isLoading ? (
           <p>Loading...</p>
