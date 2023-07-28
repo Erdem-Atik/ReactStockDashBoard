@@ -59,11 +59,14 @@ function StockDashBoard(){
     setSuggestions(newSuggestions);
   };  
   if (symbol.length >= 2) {
+    console.log('it runs');
     fetchSuggestions();
   } else {
     setSuggestions([]);
   }
 }, [symbol]);
+
+console.log(symbol);
 
 // Graph Fetch
 useEffect(() => {
@@ -85,6 +88,9 @@ useEffect(() => {
       }
       if(jsonData['Error Message']){
         console.log('Invalid api call error');
+        toastId.current = toast.error('API suggestion limit exceeded, please try later!',{
+          position: toast.POSITION.TOP_CENTER
+        })
         setIsApiError(true);
         setShowChart(false)
       }
@@ -120,7 +126,10 @@ useEffect(() => {
       setShowChart(false)
     }
   }
-  fetchData();
+  if (selectedSymbol){
+    fetchData();
+  }
+
 }, [selectedSymbol]);
 
 
@@ -139,7 +148,7 @@ useEffect(() => {
       dataList={dataList}
       isLoading ={isLoading} 
        />}
-        <ToastContainer />
+        <ToastContainer autoClose={8000}/>
     </div>
   );
 }
@@ -256,8 +265,6 @@ function Button({ onClick,children}) {
     return Date.parse(twentyFourHoursAgo)
     }
     
-
-
 
 
 export default StockDashBoard;
