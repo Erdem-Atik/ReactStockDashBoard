@@ -35,7 +35,7 @@ function StockDashBoard(){
 
     const fetchSuggestions = async () => {
     const API_KEY = process.env.REACT_APP_API_KEY 
-    const searchUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=tsla&apikey=${API_KEY}`; //${symbol}
+    const searchUrl = `https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${symbol}&apikey=${API_KEY}`; //${symbol}
     const searchResponse = await fetch(searchUrl);
     const searchJsonData = await searchResponse.json();
     console.log(searchJsonData);
@@ -190,7 +190,7 @@ function Suggestions({suggestions,handleSymbolSelect}){
 }
 
 function DrawGraph({selectedSymbol, selectedStockName, dataList, isLoading}) {
-  console.log(selectedSymbol,selectedStockName);
+  console.log(selectedSymbol,selectedStockName, dataList);
 
 
     // if(isApiError){
@@ -216,7 +216,7 @@ function DrawGraph({selectedSymbol, selectedStockName, dataList, isLoading}) {
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="timestamp"/>
           <YAxis 
-           ticks={[0, (parseInt(dataList[0]?.close))/2,(parseInt(dataList?.at(-1).close))*2]} // it defines graph y axis numbers
+           ticks={[0, (parseInt(dataList && dataList[0]?.close))/2,(parseInt(dataList && dataList?.at(-1).close))*2]} // it defines graph y axis numbers
            interval={'preserveEnd'}
           />
           <Tooltip />
