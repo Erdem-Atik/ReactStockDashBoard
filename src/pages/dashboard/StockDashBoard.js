@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from "react"; 
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';// to create chart library 
+
 import { ToastContainer, toast } from 'react-toastify';
+import { DrawGraph } from "./drawGraph";
+
 import 'react-toastify/dist/ReactToastify.css';
 
-import './styles.css';
+
 
 function StockDashBoard(){
   //Symbol states
@@ -76,7 +78,6 @@ useEffect(() => {
       const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${selectedSymbol}&interval=60min&&apikey=${API_KEY}`;
       const response = await fetch(url);
       const jsonData = await response.json();
-      console.log(jsonData);
     
       if (jsonData.Note) {  // if API stock info limit exceeds
         console.log('api value error');
@@ -189,75 +190,11 @@ function Suggestions({suggestions,handleSymbolSelect}){
 
 }
 
-function DrawGraph({selectedSymbol, selectedStockName, dataList, isLoading}) {
-  console.log(selectedSymbol,selectedStockName, dataList);
-
-
-    // if(isApiError){
-    //   return (
-    //       <Notification
-    //       message="Api limit exceeded; Failed to fetch data for the stock symbol."
-    //       onClose={() => setIsApiError(false)}
-    //     />
-    //   );
-    // }
-
-    // if(!showChart){
-    //   return null;
-    // }
-
-    return (     
-      <div className="graph">
-        {<h1> {selectedSymbol} {selectedStockName} {dataList && dataList?.at(-1)?.close} USD </h1>}
-        {<BuySellButton></BuySellButton>}
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (<LineChart width={1200} height={300} data={dataList}>
-          <CartesianGrid strokeDasharray="2 2" />
-          <XAxis dataKey="timestamp"/>
-          <YAxis 
-           ticks={[0, (parseInt(dataList && dataList[0]?.close))/2,(parseInt(dataList && dataList?.at(-1).close))*2]} // it defines graph y axis numbers
-           interval={'preserveEnd'}
-          />
-          <Tooltip />
-          <Legend name="close value (USD)" />
-          <Line type="monotone" dataKey="close" stroke="#8884d8" name="Close Value(USD)" />
-        </LineChart>)         
-        }
-      </div>
-    );      
-  }
 
   
-function BuySellButton({sellStock,buyStock}){
-    function sellClick() {
-        alert('SOLD')
-    }
-    function buyClick() {
-        alert('PURCHASED')
-    }
 
 
-    return(
-        <div>
-            <Button onClick={sellClick}>
-                Sell
-            </Button>
-            <Button onClick={buyClick}>
-                Buy
-            </Button>
-        </div>
-    )
-}
 
-
-function Button({ onClick,children}) {
-    return (
-      <button onClick={onClick}>
-        {children}
-      </button>
-    );
-  }
 
   function get24AgoGMT (){
     const currentUtcDate = new Date();
