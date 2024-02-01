@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from "react"; 
-
 import { ToastContainer, toast } from 'react-toastify';
 import { DrawGraph } from "./drawGraph";
-
+import { Suggestions } from "./suggestions";
+import { SearchBar } from "./searchBar";
+import { get24AgoGMT } from "./get24AgoGMT";
 import 'react-toastify/dist/ReactToastify.css';
-
 
 
 function StockDashBoard(){
@@ -78,6 +78,7 @@ useEffect(() => {
       const url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${selectedSymbol}&interval=60min&&apikey=${API_KEY}`;
       const response = await fetch(url);
       const jsonData = await response.json();
+      console.log(jsonData);
     
       if (jsonData.Note) {  // if API stock info limit exceeds
         console.log('api value error');
@@ -101,6 +102,7 @@ useEffect(() => {
       
       const newDataList = [];
       for (const [timestamp, financialData] of Object.entries(jsonData["Time Series (60min)"])) {
+
         newDataList.push({
           timestamp: timestamp,
           open: parseFloat(financialData['1. open']),
@@ -110,7 +112,9 @@ useEffect(() => {
           volume: parseInt(financialData['5. volume'])
         });
       }
-      
+
+      console.log(newDataList);
+
       const filteredData = newDataList.filter(el => {
         return Date.parse(el.timestamp) > get24AgoGMT()
       });
@@ -133,10 +137,7 @@ useEffect(() => {
   if (selectedSymbol){
     fetchData();
   }
-
 }, [selectedSymbol]);
-
-
 
   return (
     <div>
@@ -160,53 +161,5 @@ useEffect(() => {
 }
 
 
-function SearchBar({symbol,  onFilterStockChange}){
-
-  return(
-    <form action="">
-      <label >
-        Search A Stock
-        <input 
-        type="text"
-        value={symbol} placeholder="Search..." 
-        onChange={(e)=> onFilterStockChange(e.target.value)}/>
-      </label>
-    </form>
-  )
-}
-
-function Suggestions({suggestions,handleSymbolSelect}){
-
-
-
-  return (
-    <ul>
-      {suggestions.map((suggestion, index) => {
-        return (<li key={index} onClick={() => handleSymbolSelect(suggestion.symbol,suggestion.name)} 
-        >{suggestion.symbol} {suggestion.name} </li>);          
-      })}
-    </ul>
-  );
-
-}
-
-
-  
-
-
-
-
-  function get24AgoGMT (){
-    const currentUtcDate = new Date();
-    const currentUtcDateString = currentUtcDate.toISOString();
     
-    // Subtract 24 hours from the current UTC datetime
-    const twentyFourHoursAgo = new Date(currentUtcDate.getTime() - (72 * 60 * 60 * 1000));
-    const twentyFourHoursAgoString = twentyFourHoursAgo.toISOString();
- 
-    return Date.parse(twentyFourHoursAgo)
-    }
-    
-
-
 export default StockDashBoard;
