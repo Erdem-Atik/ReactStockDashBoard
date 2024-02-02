@@ -2,9 +2,12 @@ import React from "react";
 
 export const BuySellButton = function BuySellButton({sellStock,buyStock}){
     function sellClick() {
-        alert('SOLD')
+
+        
     }
     function buyClick() {
+
+        
         alert('PURCHASED')
     }
 
