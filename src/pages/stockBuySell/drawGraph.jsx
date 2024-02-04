@@ -1,6 +1,7 @@
 import React from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';// to create chart library 
-import { BuySellButton } from "./buySell";
+
+
 
 
 export const DrawGraph = function ({selectedSymbol, selectedStockName, dataList, isLoading}) {
@@ -10,7 +11,7 @@ export const DrawGraph = function ({selectedSymbol, selectedStockName, dataList,
       return (     
         <div className="graph">
           {<h1> {selectedSymbol} {selectedStockName} {dataList && dataList?.at(-1)?.close} USD </h1>}
-          {<BuySellButton/>}
+
           {isLoading ? (
             <p>Loading...</p>
           ) : (<LineChart width={1200} height={300} data={dataList}>

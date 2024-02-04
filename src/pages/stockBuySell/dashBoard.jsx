@@ -4,10 +4,11 @@ import { DrawGraph } from "./drawGraph";
 import { Suggestions } from "./suggestions";
 import { SearchBar } from "./searchBar";
 import { get24AgoGMT } from "./get24AgoGMT";
+import { BuySellStock } from "./buySell";
 import 'react-toastify/dist/ReactToastify.css';
 
 
-function StockDashBoard(){
+export function DashBoard(){
   //Symbol states
   const [symbol, setSymbol] = useState('');
   const [suggestions, setSuggestions] = useState([]);
@@ -147,19 +148,18 @@ useEffect(() => {
       <Suggestions
             suggestions={suggestions}
             handleSymbolSelect ={handleSymbolSelect }
-             />
-    {showChart &&       
-      <DrawGraph 
+      />
+    {showChart &&(    
+      <BuySellStock/>&&  
+     <DrawGraph      
       selectedSymbol={selectedSymbol}
       selectedStockName={selectedStockName}
       dataList={dataList}
       isLoading ={isLoading} 
-       />}
+       />)}
         <ToastContainer autoClose={8000}/>
     </div>
   );
 }
 
 
-    
-export default StockDashBoard;

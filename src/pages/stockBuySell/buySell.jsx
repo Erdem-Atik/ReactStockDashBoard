@@ -1,13 +1,12 @@
-import React from "react";
+import React, {useContext} from "react";
+import { InvestContext } from "../../context/invest-context";
 
-export const BuySellButton = function BuySellButton({sellStock,buyStock}){
+
+export const BuySellStock = function BuySellButton({sellStock,buyStock}){
     function sellClick() {
-
-        
+        alert('SOLD')       
     }
     function buyClick() {
-
-        
         alert('PURCHASED')
     }
 
